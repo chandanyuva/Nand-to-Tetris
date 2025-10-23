@@ -1,0 +1,77 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/2/FullAdder.hdl
+/**
+ * Computes the sum of three bits.
+ */
+
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+
+    PARTS:
+    //sum   = a XOR b XOR c
+    //carry = (a AND b) OR (b AND c) OR (a AND c)
+
+    Xor(a = a, b = b, out = aXorb);
+    Xor(a = aXorb, b = c, out = sum);
+
+    And(a= a, b= b, out= aAndb);
+    And(a= b, b= c, out= bAndc);
+    And(a= a, b= c, out= aAndc);
+
+    Or(a= aAndb, b= bAndc, out= t1Ort2);
+    Or(a= t1Ort2, b= aAndc, out= carry);
+    
+    //And(a= aXorb, b= c, out= aXorbAndc);
+    //Or(a= aAndb, b= aXorbAndc, out= carry);
+
+    // using 2 half adder
+    //HalfAdder(a= a, b= b, sum= s1, carry= c1);
+    //HalfAdder(a= s1, b= c, sum= sum, carry= c2);
+    //Or(a= c1, b= c2, out= carry);
+
+    // raw implimentation
+
+    //sum part
+    //Not(in= a, out= nota);
+    //Not(in= b, out= notb);
+    //Not(in= c, out= notc);
+
+    //And(a= nota, b= notb, out= t1);
+    //And(a= t1, b= c, out= o1);
+
+    //And(a= nota, b= b, out= t2);
+    //And(a= t2, b= notc, out= o2);
+
+    //And(a= a, b= notb, out= t3);
+    //And(a= t3, b= notc, out= o3);
+
+    //And(a= a, b= b, out= t4);
+    //And(a= t4, b= c, out= o4);
+
+    //Or(a= o1, b= o2, out= tmp1);
+    //Or(a= o3, b= o4, out= tmp2);
+    //Or(a= tmp1, b= tmp2, out= sum);
+
+    //carry part
+    //And(a= nota, b= b, out= x1);
+    //And(a= x1, b= c, out= o5);
+
+    //And(a= a, b= notb, out= x2);
+    //And(a= x2, b= c, out= o6);
+
+    //And(a= a, b= b, out= x3);
+    //And(a= x3, b= notc, out= o7);
+
+    //And(a= a, b= b, out= x4);
+    //And(a= x4, b= c, out= o8);
+
+    //Or(a= o5, b= o6, out= tmp3);
+    //Or(a= o7, b= o8, out= tmp4);
+    //Or(a= tmp3, b= tmp4, out= carry);
+
+
+}
